@@ -38,24 +38,29 @@ export const EnquiryManager = {
      * BUG 1: The email validation regex is too restrictive.
      * It doesn't allow emails with dots in the name or complex domains.
      */
-    validateEmail: (email: any): boolean => {
+    validateEmail: (email:string): boolean => {
         // This regex is very poor
-        const regex = /^[a-z]+@[a-z]+\.[a-z]{2,3}$/;
-        return regex.test(email);
+        const emailregex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;;
+        return emailregex.test(email);
     },
 
     /**
      * Create a new enquiry
      * BUG 2: It forgets to actually push the new enquiry into the array!
      */
-    createEnquiry: (data: any) => {
-        const isOk = EnquiryManager.validateEmail(data.email);
+    createEnquiry: (data:Partial<Enquiry>):boolean => {
+        const isValid = EnquiryManager.validateEmail(data.email || "");
 
-        if (!isOk) {
-            console.log("Error logic here");
+        if (!data.email || !EnquiryManager.validateEmail(data.email))  {
+            console.warn('validation failed for email:${data.email}');
             // Should probably throw an error, but let's just return null for now to be "messy"
-            return null;
+            
+                 return false;
+
         }
+        
+        
+         
 
         const newObj: any = {
             id: (Math.random() * 1000).toString(),
@@ -71,6 +76,12 @@ export const EnquiryManager = {
         // This does nothing
 
         return newObj;
+    },
+    searchEnquiriesByEmail: (searchTerm: string): Enquiry[] => {
+        const lowerTerm = searchTerm.toLowerCase();
+        return enquiries.filter(enquiry => 
+            enquiry.email.toLowerCase().includes(lowerTerm)
+        );
     },
 
     /**
