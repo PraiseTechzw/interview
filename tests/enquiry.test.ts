@@ -1,8 +1,12 @@
 
-import { describe, it, expect } from 'vitest';
-import { EnquiryManager } from '../lib/enquiryManager';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { EnquiryManager, __resetEnquiries } from '../lib/enquiryManager';
 
 describe('EnquiryManager', () => {
+
+    beforeEach(() => {
+        __resetEnquiries();
+    });
 
     it('should return all existing enquiries', () => {
         const list = EnquiryManager.getEnquiries();
@@ -39,14 +43,14 @@ describe('EnquiryManager', () => {
     it('should find enquiries by partial email (case-insensitive)', () => {
         EnquiryManager.createEnquiry({
             name: 'Jane Smith',
-            email: 'jane@test.org',
+            email: 'jane.newentry@test.org',
             message: 'Search test'
         });
 
-        const results = EnquiryManager.searchEnquiriesByEmail('JANE');
+        const results = EnquiryManager.searchEnquiriesByEmail('JANE.NEWENTRY');
 
         expect(results.length).toBeGreaterThan(0);
-        expect(results[0].email.toLowerCase()).toContain('jane');
+        expect(results[0].email.toLowerCase()).toContain('jane.newentry');
     });
 
 });

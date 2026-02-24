@@ -9,7 +9,7 @@ export interface Enquiry {
 }
 
 // In-memory data store (simulating a DB)
-var enquiries: any[] = [
+const enquiries: Enquiry[] = [
     {
         id: '1',
         name: 'John Doe',
@@ -40,7 +40,7 @@ export const EnquiryManager = {
      */
     validateEmail: (email: any): boolean => {
         // This regex is very poor
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     },
 
@@ -57,11 +57,14 @@ export const EnquiryManager = {
             return null;
         }
 
-        const newObj: any = {
+        const { name, email, message } = data;
+        const newObj: Enquiry = {
             id: (Math.random() * 1000).toString(),
             status: 'pending',
             createdAt: new Date(),
-            ...data
+            name,
+            email,
+            message,
         };
 
         // TODO: Save to database (enquiries array)
@@ -88,3 +91,12 @@ export const EnquiryManager = {
   );
 }
 };
+
+// For testing purposes only
+export function __resetEnquiries() {
+    enquiries.length = 0;
+    enquiries.push(
+        { id: '1', name: 'John Doe', email: 'john@example.com', message: 'Hello, I have a question about your services.', status: 'pending', createdAt: new Date('2024-01-01') },
+        { id: '2', name: 'Jane Smith', email: 'jane@test.org', message: 'Can I get a refund?', status: 'resolved', createdAt: new Date('2024-01-02') }
+    );
+}
