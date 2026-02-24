@@ -80,10 +80,11 @@ export const EnquiryManager = {
     /**
      * Search enquiries by email (partial match, case-insensitive)
      */
-    searchEnquiriesByEmail: (emailQuery: string): Enquiry[] => {
-        const lowerQuery = emailQuery.toLowerCase();
-        return enquiries.filter(enquiry => 
-            enquiry.email.toLowerCase().includes(lowerQuery)
-        );
-    }
+   searchEnquiriesByEmail(email: string) {
+  const searchTerm = email.toLowerCase();
+
+  return enquiries.filter((enquiry: Enquiry) =>
+    enquiry.email.toLowerCase().includes(searchTerm)
+  );
+}
 };

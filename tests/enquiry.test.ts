@@ -10,8 +10,7 @@ describe('EnquiryManager', () => {
     });
 
     /**
-     * TEST 1: FAILING TEST
-     * The validateEmail function is broken for common emails like 'user.name@domain.com'
+     * TEST 1: Email validation
      */
     it('should validate complex email addresses correctly', () => {
         const validEmail = 'john.doe@company.technology';
@@ -19,8 +18,7 @@ describe('EnquiryManager', () => {
     });
 
     /**
-     * TEST 2: FAILING TEST
-     * The createEnquiry function has a bug where it doesn't persist the new enquiry.
+     * TEST 2: Persistence
      */
     it('should persist a new enquiry in the list', () => {
         const initialCount = EnquiryManager.getEnquiries().length;
@@ -33,6 +31,22 @@ describe('EnquiryManager', () => {
 
         const finalCount = EnquiryManager.getEnquiries().length;
         expect(finalCount).toBe(initialCount + 1);
+    });
+
+    /**
+     * TEST 3: New Search Feature
+     */
+    it('should find enquiries by partial email (case-insensitive)', () => {
+        EnquiryManager.createEnquiry({
+            name: 'Jane Smith',
+            email: 'jane@test.org',
+            message: 'Search test'
+        });
+
+        const results = EnquiryManager.searchEnquiriesByEmail('JANE');
+
+        expect(results.length).toBeGreaterThan(0);
+        expect(results[0].email.toLowerCase()).toContain('jane');
     });
 
 });
