@@ -34,5 +34,21 @@ describe('EnquiryManager', () => {
         const finalCount = EnquiryManager.getEnquiries().length;
         expect(finalCount).toBe(initialCount + 1);
     });
+    /**
+     * 
+     */
+    it('should search enquiries by email (partial and case-insensitive)', () => {
+
+    EnquiryManager.createEnquiry({
+        name: 'Jane',
+        email: 'Jane@Test.org',
+        message: 'Search test'
+    });
+
+    const results = EnquiryManager.searchEnquiriesByEmail('jane');
+
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].email).toBe('Jane@Test.org');
+});
 
 });
