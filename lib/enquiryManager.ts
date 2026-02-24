@@ -8,6 +8,8 @@ export interface Enquiry {
     createdAt: Date;
 }
 
+type CreateEnquiryInput = Pick<Enquiry, 'name' | 'email' | 'message'>;
+
 // In-memory data store (simulating a DB)
 const enquiries: Enquiry[] = [
     {
@@ -48,7 +50,7 @@ export const EnquiryManager = {
      * Create a new enquiry
      * BUG 2: It forgets to actually push the new enquiry into the array!
      */
-    createEnquiry: (data: any) => {
+    createEnquiry: (data: CreateEnquiryInput) => {
         const isOk = EnquiryManager.validateEmail(data.email);
 
         if (!isOk) {
@@ -83,13 +85,14 @@ export const EnquiryManager = {
     /**
      * Search enquiries by email (partial match, case-insensitive)
      */
-   searchEnquiriesByEmail(email: string) {
-  const searchTerm = email.toLowerCase();
+    searchEnquiriesByEmail(email: string) {
+        if (!email.trim()) return [];
+        const searchTerm = email.toLowerCase();
 
-  return enquiries.filter((enquiry: Enquiry) =>
-    enquiry.email.toLowerCase().includes(searchTerm)
-  );
-}
+        return enquiries.filter((enquiry: Enquiry) =>
+            enquiry.email.toLowerCase().includes(searchTerm)
+        );
+    }
 };
 
 // For testing purposes only
