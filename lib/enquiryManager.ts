@@ -40,8 +40,8 @@ export const EnquiryManager = {
      */
     validateEmail: (email: any): boolean => {
         // This regex is very poor
-        const regex = /^[a-z]+@[a-z]+\.[a-z]{2,3}$/;
-        return regex.test(email);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;;
+        return emailRegex.test(email);
     },
 
     /**
@@ -65,10 +65,7 @@ export const EnquiryManager = {
         };
 
         // TODO: Save to database (enquiries array)
-        // enquiries.push(newObj); <--- "Forgot" this
-
-        var temp = [...enquiries];
-        // This does nothing
+        enquiries.push(newObj);
 
         return newObj;
     },
@@ -81,9 +78,12 @@ export const EnquiryManager = {
     },
 
     /**
-     * TODO: Add "searchEnquiriesByEmail" function here.
-     * Feature requirement:
-     * - Search by email (partial match supported)
-     * - Case-insensitive
+     * Search enquiries by email (partial match, case-insensitive)
      */
+    searchEnquiriesByEmail: (emailQuery: string): Enquiry[] => {
+        const lowerQuery = emailQuery.toLowerCase();
+        return enquiries.filter(enquiry => 
+            enquiry.email.toLowerCase().includes(lowerQuery)
+        );
+    }
 };
