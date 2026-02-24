@@ -2,6 +2,9 @@
 
 Welcome to the **Hurudzai AI** technical assessment! This project is a miniaturized version of an enquiry management system. It contains intentional bugs, sub-optimal code, and missing features to simulate a real-world "legacy" codebase that needs improvement.
 
+⏱️ **Recommended Time**: 1-2 hours
+💬 **Questions?** Reach out to your contact person or open an issue on your fork.
+
 ---
 
 ## 🛠️ Step 1: Getting Started (Forking & Setup)
@@ -24,7 +27,7 @@ To begin the assessment, you must follow these steps to ensure your work is trac
     ```
 5.  **Run Initial Tests**:
     ```bash
-    npx vitest run
+    npm test
     ```
     *(Expect 2 failing tests initially!)*
 
@@ -47,7 +50,7 @@ Add a new function `searchEnquiriesByEmail(email: string)` to the `EnquiryManage
 
 ### 3. Verification & Testing
 - Add at least one new test case in `tests/enquiry.test.ts` to verify your new search feature works as expected.
-- Ensure **all** tests pass (`npx vitest run`).
+- Ensure **all** tests pass (`npm test`).
 
 ---
 
